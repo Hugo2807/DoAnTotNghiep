@@ -40,11 +40,14 @@
                             <h3 class="text-center text-info">QUÊN MẬT KHẨU</h3>
                             <p class="text-center text-info">Vui lòng điền địa chỉ email bạn sử dụng để đăng nhập</p>
                             @if (session('msg'))
-                                <div class="alert alert-success">{{session('msg')}}</div>
+                                <div class="alert alert-success"><i class="fa-solid fa-check"></i> {{session('msg')}}</div>
                             @endif
                             <div class="form-group">
                                 <label for="username" class="text-info">Nhập địa chỉ Email</label><br>
                                 <input type="email" name="email" id="username" class="form-control" placeholder="Enter your email" value="{{ old('email') }}">
+                                @error('email')
+                                    <small style="color: red">{{$message}}</small>
+                                @enderror
                             </div>
                             <div class="form-group text-center">
                                 <input type="submit" name="submit" class="btn btn-info btn-md" value="Gửi email xác nhận">
