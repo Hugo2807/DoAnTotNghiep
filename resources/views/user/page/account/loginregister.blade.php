@@ -23,7 +23,7 @@
                         <div class="field">
                             <input type="password" name="password" placeholder="Mật khẩu" required>
                         </div>
-                        <div class="pass-link"><a href="#">Quên mật khẩu?</a></div>
+                        <div class="pass-link"><a href="{{ route('user.forgotpass') }}">Quên mật khẩu?</a></div>
                         @if (session('msg'))
                             <div class="alert alert-success">{{session('msg')}}</div>
                         @endif

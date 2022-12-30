@@ -53,4 +53,8 @@ class Member extends Authenticatable
     {
         return $this->hasMany(Comment::class);
     }
+
+    public function password_resets(){
+        return $this->hasOne(Password_reset::class, 'email', 'email');
+    }
 }

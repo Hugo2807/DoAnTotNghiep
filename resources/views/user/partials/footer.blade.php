@@ -98,7 +98,7 @@
 <script src="userdashboard/js/main.js"></script>
 {{-- Hide notifications --}}
 <script>
-  $(".alert").delay(2000).slideUp(200, function() {
+  $(".alert").delay(5000).slideUp(200, function() {
     $(this).alert('close');
   });
 </script>

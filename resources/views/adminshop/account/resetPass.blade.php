@@ -4,8 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Quên mật khẩu</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.2.1/css/all.min.css" integrity="sha512-MV7K8+y+gLIBoVD59lQIYicR65iaqukzvf/nwasF0nqhPay5w/9lJmVM2hMDcnK1OnMGCdVK+iQrJ7lzPJQd1w==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <title>Đổi mật khẩu</title>
     <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
     <style>
         body {
@@ -35,27 +34,27 @@
             <div id="login-row" class="row justify-content-center align-items-center">
                 <div id="login-column" class="col-md-6">
                     <div id="login-box" class="col-md-12" style="height:auto;">
-                        <form action="" id="quickForm" method="post">
+                        <form id="login-form" class="form" action="" method="post">
                             @csrf
-                            <div class="card-body">
-                                <div class="form-group">
-                                    <label for="username" class="text-info">Nhập địa chỉ Email</label><br>
-                                    <input type="email" name="email" id="username" class="form-control" placeholder="Enter your email" value="{{ old('username') }}">
-                                </div>
-                                <div class="form-group">
-                                    <label for="newPass">Mật khẩu mới</label>
-                                    <input type="password" name="newpass" class="form-control" id="newPass" placeholder="Enter New Password">
-                                </div>
-                                <div class="form-group">
-                                    <label for="confirmNewpass">Nhập lại mật khẩu mới</label>
-                                    <input type="password" name="confirmnewpass" class="form-control" id="confirmNewpass" placeholder="Confirm New Password">
-                                </div>
+                            <h3 class="text-center text-info">ĐỔI MẬT KHẨU</h3>
+                            <div class="form-group">
+                                <label class="text-info">Mật khẩu mới</label>
+                                <input type="password" name="resetpass" class="form-control" placeholder="Enter password">
+                                @error('resetpass')
+                                    <small style="color: red">{{$message}}</small>
+                                @enderror
                             </div>
-                            <!-- /.card-body -->
-                            <div class="card-footer">
-                              <button type="submit" class="btn btn-primary">Lưu</button>
+                            <div class="form-group">
+                                <label class="text-info">Nhập lại mật khẩu mới</label>
+                                <input type="password" name="confirm_resetpass" class="form-control" placeholder="Confirm password">
+                                @error('confirm_resetpass')
+                                    <small style="color: red">{{$message}}</small>
+                                @enderror
                             </div>
-                          </form>
+                            <div class="form-group">
+                                <input type="submit" name="submit" class="btn btn-info btn-md" value="Đổi mật khẩu">
+                            </div>
+                        </form>
                     </div>
                 </div>
             </div>

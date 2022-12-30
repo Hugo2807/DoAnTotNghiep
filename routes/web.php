@@ -57,10 +57,17 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
         Route::get('/', 'UserController@blogIndex')->name('blogIndex');
         Route::get('/{slug}', 'SlugController@slug')->name('slug');
     });
-    // Trang đăng nhập & đăng ký
-    Route::group(['prefix' => 'loginuser', 'as' => 'user.'], function () {
+    // Trang đăng nhập & đăng ký & quên mật khẩu
+    Route::group(['prefix' => 'account', 'as' => 'user.'], function () {
         Route::get('/', 'UserController@login')->name('login');
         Route::post('/', 'UserController@handlelogin')->name('handlelogin');
+
+        Route::get('forgotpassword', 'UserController@forgotPass')->name('forgotpass');
+        Route::post('forgotpassword', 'UserController@postforgotPass');
+
+        Route::get('resetpassword/{member}/{token}', 'UserController@resetPass')->name('resetpass');
+        Route::post('resetpassword/{member}/{token}', 'UserController@postresetPass');
+
         Route::get('logout', 'UserController@logout')->name('logout');
     });
     Route::group(['prefix' => 'infomation', 'as' => 'userinf.', 'middleware' => 'auth:webuser'], function () {
@@ -84,8 +91,8 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('forgotpassword', 'AdminAuthController@forgotPass')->name('forgotpass');
     Route::post('forgotpassword', 'AdminAuthController@postforgotPass');
 
-    Route::get('resetpassword', 'AdminAuthController@resetPass')->name('resetpass');
-    Route::post('resetpassword', 'AdminAuthController@postresetPass');
+    Route::get('resetpassword/{user}/{token}', 'AdminAuthController@resetPass')->name('resetpass');
+    Route::post('resetpassword/{user}/{token}', 'AdminAuthController@postresetPass');
 
     Route::get('logout', 'AdminAuthController@logout')->name('logout');
 });

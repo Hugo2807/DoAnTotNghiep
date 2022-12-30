@@ -41,4 +41,8 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function password_resets(){
+        return $this->hasOne(Password_reset::class, 'email', 'email');
+    }
 }
