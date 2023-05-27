@@ -5,10 +5,11 @@ namespace App\Models;
 use Laravel\Sanctum\HasApiTokens;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 
-class Member extends Authenticatable
+class Member extends Authenticatable implements MustVerifyEmail
 {
     use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
     protected $guarded = [];
@@ -19,15 +20,18 @@ class Member extends Authenticatable
      * @var array<int, string>
      */
     protected $fillable = [
-        'hoten',
-        'gioitinh',
-        'ngaysinh',
-        'sdt',
-        'diachi',
+        'full_name',
+        'gender',
+        'birthday',
+        'phone',
+        'address',
         'image_path',
         'image_name',
         'email',
+        'email_verified_at',
         'password',
+        'status',
+        'token_verify'
     ];
 
     /**
@@ -52,6 +56,10 @@ class Member extends Authenticatable
     public function comments()
     {
         return $this->hasMany(Comment::class);
+    }
+
+    public function products(){
+        return $this->belongsToMany(Product::class, 'carts');
     }
 
     public function password_resets(){

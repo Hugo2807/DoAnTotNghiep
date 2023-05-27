@@ -5,9 +5,6 @@ use App\Models\Post;
 
 use App\Models\Slug;
 
-use App\Models\Menunote;
-use App\Models\Menulocation;
-
 class PostService{
 
     // User
@@ -27,9 +24,7 @@ class PostService{
     {
         $slugName = $slug;
         $slugPost = Slug::where('nameSlug', $slug)->first();
-        // dd($slugPost->slugable_id);
         $postDetails = Post::findOrFail($slugPost->slugable_id);
-        // dd($postDetails);
         return view('user.page.blogs.postDetail', compact('postDetails','slugPost', 'slugName'));
     }
 }

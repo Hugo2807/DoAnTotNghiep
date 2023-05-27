@@ -9,23 +9,15 @@ use App\Traits\StoreImageTrait;
 use App\Models\PostCategory;
 
 use App\Models\Post;
-
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Str;
 
 class PostController extends Controller
 {
     use StoreImageTrait;
 
-    public function __contruct(PostCategory $postcategory){
-        $this->postcategory = $postcategory;
-        // $this->blog = $blog;
-    }
-
     public function index(){
         $posts = Post::orderBy('id', 'ASC')->paginate(5);
-        // $post = Post::find(1);
-        // $slug = $post->slug();
-        // dd($slug);
         return view('adminshop.post.index', compact('posts'));
     }
 
@@ -42,13 +34,13 @@ class PostController extends Controller
                 'posterName' => $request->posterName,
                 'content' => $request->content,
             ];
-    
+
             $postImage = $this->storageTraitUpLoad($request, 'imagePath', 'posts');
             if(!empty($postImage)){
                 $dataInsert['imageName'] = $postImage['file_name'];
                 $dataInsert['imagePath'] = $postImage['file_path'];
             }
-    
+
             $data = Post::create($dataInsert);
             $data->postcategories()->attach($request->input('postcate', []));
             $data->slug()->create([
@@ -61,11 +53,9 @@ class PostController extends Controller
     }
 
     public function edit($id, Post $post)
-    {   
+    {
         $postcategories = PostCategory::all();
         $result = Post::findOrFail($id);
-        // $result = Slug::where('slug',$);
-        // $postcategories = $this->postcategory->posts();
         $option = $result->postcategories()->pluck('postcategory_id')->toArray();
         return view('adminshop.post.edit', compact('result', 'postcategories','option'));
     }
@@ -79,7 +69,7 @@ class PostController extends Controller
                 'posterName' => $request->posterName,
                 'content' => $request->content,
             ];
-    
+
             $postImage = $this->storageTraitUpLoad($request, 'imagePath', 'posts');
             if(!empty($postImage)){
                 $dataUpdate['imageName'] = $postImage['file_name'];
@@ -97,7 +87,7 @@ class PostController extends Controller
         }
     }
 
-    public function delete(Request $request, $id)
+    public function delete($id)
     {
         $data = Post::find($id);
         $data->delete();

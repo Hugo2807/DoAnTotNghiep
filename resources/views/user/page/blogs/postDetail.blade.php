@@ -1,7 +1,3 @@
-{{-- @php
-  $post = \App\Models\Post::findOrFail(2);
-  dd($postDetails->);
-@endphp --}}
 @extends('user.usershop')
 @section('usermain')
   <div class="hero-wrap hero-bread" style="background-image: url('userdashboard/images/bg_1.jpg');">
@@ -28,7 +24,7 @@
             @endphp --}}
             {{-- @include('user.page.cmt.comment', ['idCmt' => $postDetail->id]) --}}
             @include('user.page.cmt.comment', [
-              // 'iduser' => 
+              // 'iduser' =>
               'slug' => $slugName,
               'slugable_id' => $slugPost,
               'comments' => $postDetails->comments,
@@ -43,8 +39,8 @@
   </section>
 @endsection
 
-@section('scripts')
+{{-- @section('scripts')
     <script>
-      
+
     </script>
-@endsection
+@endsection --}}

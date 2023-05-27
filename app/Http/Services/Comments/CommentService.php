@@ -8,7 +8,6 @@ class CommentService{
 
     public function cmtPost($iduser, $slug, $cmt, $pr_cmt)
     {
-        // dd($pr_cmt);
         $slugPost = Slug::where('nameSlug', $slug)->first('slugable_id'); //id của post trong slug
         $post = Post::find($slugPost)->first(); //find id post
         $post->comments()->create([

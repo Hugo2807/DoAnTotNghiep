@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -15,6 +16,8 @@ class ProductSeeder extends Seeder
      */
     public function run()
     {
+        $today = Carbon::now();
+
         DB::table('products')->insert([
             'name' => 'Bưởi da xanh',
             'image_path' => '/storage/products/buoidaxanh.jpg',
@@ -27,6 +30,8 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '1',
             'id_suppli' => '1',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -41,6 +46,8 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '1',
             'id_suppli' => '2',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -55,6 +62,8 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '2',
             'id_suppli' => '3',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -69,6 +78,24 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '2',
             'id_suppli' => '4',
+            'created_at' => $today,
+            'updated_at' => $today,
+        ]);
+
+        DB::table('products')->insert([
+            'name' => 'Cam Mỹ',
+            'image_path' => '/storage/products/cammy.jpg',
+            'image_name' => 'cammy.jpg',
+            'amount' => '50',
+            'price' => '90000',
+            'description' => 'Ngon',
+            'status' => '1',
+            'id_unit' => '1',
+            'id_trademark' => '8',
+            'id_cate' => '2',
+            'id_suppli' => '4',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -83,6 +110,8 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '3',
             'id_suppli' => '5',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -97,6 +126,8 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '3',
             'id_suppli' => '1',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -111,6 +142,8 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '4',
             'id_suppli' => '2',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -125,6 +158,24 @@ class ProductSeeder extends Seeder
             'id_trademark' => '2',
             'id_cate' => '4',
             'id_suppli' => '3',
+            'created_at' => $today,
+            'updated_at' => $today,
+        ]);
+
+        DB::table('products')->insert([
+            'name' => 'Lê Hàn',
+            'image_path' => '/storage/products/lehanquoc.jpg',
+            'image_name' => 'lehanquoc.jpg',
+            'amount' => '50',
+            'price' => '100000',
+            'description' => 'Ngon',
+            'status' => '1',
+            'id_unit' => '1',
+            'id_trademark' => '6',
+            'id_cate' => '4',
+            'id_suppli' => '3',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -139,34 +190,56 @@ class ProductSeeder extends Seeder
             'id_trademark' => '5',
             'id_cate' => '5',
             'id_suppli' => '4',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
-            'name' => 'Táo Hàn Quốc',
-            'image_path' => '/storage/products/taohq.jpg',
-            'image_name' => 'taohq.jpg',
-            'amount' => '50',
-            'price' => '90000',
+            'name' => 'Táo gió',
+            'image_path' => '/storage/products/taogio.jpg',
+            'image_name' => 'taogio.jpg',
+            'amount' => '0',
+            'price' => '20000',
             'description' => 'Ngon',
-            'status' => '1',
+            'status' => '0',
             'id_unit' => '1',
-            'id_trademark' => '6',
+            'id_trademark' => '1',
             'id_cate' => '6',
             'id_suppli' => '5',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
             'name' => 'Táo New Zealand',
             'image_path' => '/storage/products/taonz.jpg',
             'image_name' => 'taonz.jpg',
-            'amount' => '0',
+            'amount' => '30',
             'price' => '100000',
             'description' => 'Ngon',
-            'status' => '0',
+            'status' => '1',
             'id_unit' => '1',
             'id_trademark' => '3',
             'id_cate' => '6',
             'id_suppli' => '1',
+            'created_at' => $today,
+            'updated_at' => $today,
+        ]);
+
+        DB::table('products')->insert([
+            'name' => 'Táo Pháp',
+            'image_path' => '/storage/products/taophap.jpg',
+            'image_name' => 'taophap.jpg',
+            'amount' => '30',
+            'price' => '100000',
+            'description' => 'Ngon',
+            'status' => '1',
+            'id_unit' => '1',
+            'id_trademark' => '7',
+            'id_cate' => '6',
+            'id_suppli' => '1',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -181,6 +254,24 @@ class ProductSeeder extends Seeder
             'id_trademark' => '1',
             'id_cate' => '6',
             'id_suppli' => '2',
+            'created_at' => $today,
+            'updated_at' => $today,
+        ]);
+
+        DB::table('products')->insert([
+            'name' => 'Xoài Thái',
+            'image_path' => '/storage/products/xoaithai.jpg',
+            'image_name' => 'xoaithai.jpg',
+            'amount' => '30',
+            'price' => '55000',
+            'description' => 'Ngon',
+            'status' => '1',
+            'id_unit' => '1',
+            'id_trademark' => '5',
+            'id_cate' => '6',
+            'id_suppli' => '2',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
 
         DB::table('products')->insert([
@@ -195,6 +286,8 @@ class ProductSeeder extends Seeder
             'id_trademark' => '4',
             'id_cate' => '7',
             'id_suppli' => '3',
+            'created_at' => $today,
+            'updated_at' => $today,
         ]);
     }
 }

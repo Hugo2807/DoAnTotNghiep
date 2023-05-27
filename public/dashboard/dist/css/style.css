@@ -43,3 +43,47 @@
     margin-right: auto;
     margin-left: auto;
 }
+.card-body-search{
+    height: auto;
+    margin-bottom: 0.75rem;
+}
+
+.card-body-search .form-group-search{
+    width: 100%;
+    padding: 10px;
+}
+
+.form-group-search .input-search-ajax{
+    position: relative;
+}
+
+.form-group-search .search-ajax-result{
+    position: absolute;
+    width: 330px;
+    height: 80px;
+    top: 88%;
+    overflow-y: scroll;
+    scroll-behavior: smooth;
+}
+
+.form-group-search .search-ajax-result a {
+    color: black;
+    text-decoration: none;
+}
+
+.form-group-search .search-ajax-result .menu-item {
+    background-color: #EEEEEE;
+    align-items: center;
+}
+
+.form-group-search .search-ajax-result .menu-item img {
+    margin: 10px 15px 10px 15px;
+}
+
+/* #badge {
+    background-color: gray;
+    color: white;
+    padding: 10px;
+    border-radius: 5px;
+    width: fit-content;
+} */

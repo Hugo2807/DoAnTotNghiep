@@ -11,7 +11,9 @@
     <div class="dropdown-menu" aria-labelledby="dropdown04">
         @foreach ($item->menuChildren as $menuChildren)
             {{-- <li> --}}
-                <a class="dropdown-item" href="{{ route($menuChildren->slug) }}">{{$menuChildren->name}}
+                <a class="dropdown-item"
+                {{-- href="{{ route($menuChildren->slug) }}" --}}
+                >{{$menuChildren->name}}
                     @if($menuChildren->menuChildren->count())
                         @include('user.page.menus.childmenu', ['item' => $menuChildren])
                     @endif

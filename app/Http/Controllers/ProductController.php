@@ -9,6 +9,7 @@ use App\Models\Trademark;
 use Illuminate\Http\Request;
 use App\Models\ProductCategory;
 use App\Traits\StoreImageTrait;
+use Illuminate\Support\Str;
 
 class ProductController extends Controller
 {
@@ -33,8 +34,7 @@ class ProductController extends Controller
 
     public function postcreate(Request $request)
     {
-        // dd($request->id_suppli);
-        // $slug = Str::slug($request->title, '-');
+        $slug = Str::slug($request->name, '-');
         $productInsert = [
             'name' => $request->name,
             'amount' => $request->amount,
@@ -54,9 +54,9 @@ class ProductController extends Controller
         }
 
         $data = Product::create($productInsert);
-        // $data->slug()->create([
-        //     'nameSlug' => $slug
-        // ]);
+        $data->slug()->create([
+            'nameSlug' => $slug
+        ]);
 
         return redirect()->route('adminshop.product.index')->with('msg', 'Thêm sản phẩm thành công');
     }
@@ -64,27 +64,43 @@ class ProductController extends Controller
     public function edit($id, Request $request)
     {
         $productDetail = Product::find($id);
-        return view('adminshop.product.edit', compact('productDetail'));
+        $units = Unit::all();
+        $categories = ProductCategory::all();
+        $trademarks = Trademark::all();
+        $suppliers = Supplier::all();
+        return view('adminshop.product.edit', compact('productDetail', 'units', 'categories', 'trademarks', 'suppliers'));
     }
 
     public function updateProduct(Request $request, $id)
     {
-        $data = Product::find($id);
-        $data->name = $request->name;
-        $data->image = $request->image;
-        $data->amount = $request->amount;
-        $data->price = $request->price;
-        $data->category = $request->category;
-        $data->supplier = $request->supplier;
-        $data->status = $request->status;
-        $data->save();
+        $dataUpdate = [
+            'name' => $request->name,
+            'amount' => $request->amount,
+            'price' => $request->price,
+            'description' => $request->description,
+            'status' => $request->status,
+            'id_unit' => $request->id_unit,
+            'id_trademark' => $request->id_trademark,
+            'id_cate' => $request->id_cate,
+            'id_suppli' => $request->id_suppli,
+        ];
+
+        $productImage = $this->storageTraitUpLoad($request, 'image_path', 'products');
+        if(!empty($productImage)){
+            $dataUpdate['image_name'] = $productImage['file_name'];
+            $dataUpdate['image_path'] = $productImage['file_path'];
+        }
+
+        Product::find($id)->update($dataUpdate);
 
         return redirect()->route('adminshop.product.index')->with('msg', 'Cập nhật sản phẩm thành công');
     }
 
     public function delete($id)
     {
-        Product::find($id)->delete();
+        $product_data = Product::find($id);
+        $product_data->delete();
+        $product_data->slug()->delete();
         return redirect()->route('adminshop.product.index')->with('msg', 'Xóa sản phẩm thành công');
     }
 }

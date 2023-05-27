@@ -45,8 +45,8 @@
             <table class="table table-bordered">
                 <thead>
                   <tr>
-                    <th style="width: 40%">Tên loại</th>
-                    <th style="width: 30%">Chức năng</th>
+                    <th style="width: auto">Tên loại</th>
+                    <th style="width: auto">Chức năng</th>
                   </tr>
                 </thead>
                 <tbody>

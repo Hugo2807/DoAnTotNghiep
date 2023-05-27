@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\User;
 
 use Illuminate\Support\Str;
-
+use App\Mail\ForgotPassword;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
@@ -22,7 +22,7 @@ class AdminAuthController extends Controller
         $email = User::get('email');
         $pass = User::get('password');
         $remember = $request->has('remember_me') ? true : false;
-        if(auth()->attempt([
+        if(Auth::guard('web')->attempt([
             'email' => $request->email,
             'password' => $request->password
         ], $remember))
@@ -50,10 +50,15 @@ class AdminAuthController extends Controller
         $token = strtoupper(Str::random(10));
         $user->password_resets->where('email', $request->email)->update(['token' => $token]);
 
-        Mail::send('adminshop.account.check_email_forgot', compact('user', 'token'), function($email) use($user) {
-            $email->subject('NaFruits - Lấy lại mật khẩu tài khoản');
-            $email->to($user->email, $user->name);
-        });
+        // Cách 1
+        // Mail::send('adminshop.account.check_email_forgot', compact('user', 'token'), function($email) use($user) {
+        //     $email->subject('NaFruits - Lấy lại mật khẩu tài khoản');
+        //     $email->to($user->email, $user->name);
+        // });
+
+        // Cách 2
+        Mail::to($user->email)->send(new ForgotPassword($user, $token));
+
         return redirect()->back()->with('msg', 'Vui lòng kiểm tra email để thực hiện thay đổi mật khẩu');
     }
 

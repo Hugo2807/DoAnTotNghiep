@@ -7,13 +7,13 @@
       <div class="container-fluid">
         <div class="row mb-2">
           <div class="col-sm-6">
-            {{-- <h1>Edit_Product</h1> --}}
+            <h1>Chỉnh sửa</h1>
           </div>
           <div class="col-sm-6">
             <ol class="breadcrumb float-sm-right">
-              <li class="breadcrumb-item"><a href="{{ route('adminshop.index') }}">Home</a></li>
-              <li class="breadcrumb-item"><a href="{{ route('adminshop.product.index') }}">Product</a></li>
-              <li class="breadcrumb-item active">Edit Product</li>
+              <li class="breadcrumb-item"><a href="{{ route('adminshop.index') }}">Trang chủ</a></li>
+              <li class="breadcrumb-item"><a href="{{ route('adminshop.product.index') }}">Sản phẩm</a></li>
+              <li class="breadcrumb-item active">Chỉnh sửa</li>
             </ol>
           </div>
         </div>
@@ -31,12 +31,8 @@
           <div class="alert alert-danger">Dữ liệu nhập vào không hợp lệ. Vui lòng kiểm tra lại</div>
         @endif
 
-        <div class="card-header">
-          <h1 class="card-title">Edit Product</h1>
-        </div>
-        <!-- /.card-header -->
         <div class="card card-primary mb-0">
-          <form action="" method="post">
+          {{-- <form action="" method="post">
             @csrf
             <div class="card-body">
               <div class="form-group">
@@ -87,6 +83,104 @@
 
             <div class="card-footer">
               <button type="submit" class="btn btn-primary">Save</button>
+              <a href="{{ route('adminshop.product.index') }}">
+                  <button type="button" class="btn btn-primary">Back</button>
+              </a>
+            </div>
+          </form> --}}
+          <form action="" method="post" enctype="multipart/form-data">
+            @csrf
+            <div class="card-body">
+              <div class="row">
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Tên sản phẩm</label>
+                    <input type="text" class="form-control" name="name" placeholder="Enter Name" value="{{$productDetail->name}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Ảnh sản phẩm</label>
+                    <input type="file" name="image_path" class="form-control-file">
+                    <div class="col-md-4 mt-2">
+                        <div class="row">
+                            <img src="{{$productDetail->image_path}}" width="150px" height="100px" alt="{{$productDetail->image_name}}">
+                        </div>
+                    </div>
+                  </div>
+                  <div class="form-group">
+                      <label>Số lượng</label>
+                      <input type="number" class="form-control" name="amount" value="{{$productDetail->amount}}" required>
+                  </div>
+                  <div class="form-group">
+                      <label>Giá</label>
+                      <input type="text" class="form-control" name="price" placeholder="Enter Price" value="{{$productDetail->price}}" required>
+                  </div>
+                  <div class="form-group">
+                    <label>Mô tả</label>
+                    <textarea name="description" class="form-control" rows="4">{{$productDetail->description}}</textarea>
+                  </div>
+                </div>
+                <div class="col-6">
+                  <div class="form-group">
+                    <label>Đơn vị tính</label>
+                    <select class="form-control" name="id_unit">
+                      <option value="0">Chọn đơn vi tính</option>
+                      @foreach ($units as $unit)
+                        <option value="{{$unit->id}}" @if($productDetail->id_unit == $unit->id) selected @endif>
+                          {{$unit['type']}}
+                        </option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Loại sản phẩm</label>
+                    <select class="form-control" name="id_cate">
+                      <option value="0">Chọn loại sản phẩm</option>
+                      @foreach ($categories as $category)
+                        <option value="{{$category->id}}" @if($productDetail->id_cate == $category->id) selected @endif>
+                          {{$category['name']}}
+                        </option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Thương hiệu</label>
+                    <select class="form-control" name="id_trademark">
+                      <option value="0">Chọn thương hiệu</option>
+                      @foreach ($trademarks as $trademark)
+                        <option value="{{$trademark->id}}" @if($productDetail->id_trademark == $trademark->id) selected @endif>
+                          {{$trademark['name']}}
+                        </option>
+                      @endforeach
+                    </select>
+                  </div>
+                  <div class="form-group">
+                      <label>Nhà cung cấp</label>
+                      <select class="form-control" name="id_suppli">
+                        <option value="0">Chọn nhà cung cấp</option>
+                        @foreach ($suppliers as $supplier)
+                          <option value="{{$supplier->id}}" @if($productDetail->id_suppli == $supplier->id) selected @endif>
+                            {{$supplier['name']}}
+                          </option>
+                        @endforeach
+                      </select>
+                  </div>
+                  <div class="form-group">
+                    <label>Tình trạng</label>
+                    <div>
+                      <div>
+                        <input type="radio" name="status" value="1" @if($productDetail->status == 1) checked @endif>
+                        <label>Còn hàng</label>
+                      </div>
+                      <input type="radio" name="status" value="0" @if($productDetail->status == 0) checked @endif>
+                      <label>Hết hàng</label>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- /.card-body -->
+            <div class="card-footer">
+              <button type="submit" class="btn btn-primary">Lưu</button>
               <a href="{{ route('adminshop.product.index') }}">
                   <button type="button" class="btn btn-primary">Back</button>
               </a>
