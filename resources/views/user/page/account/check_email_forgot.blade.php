@@ -1,6 +1,6 @@
 <div style="width: 600px; margin: 0 auto;">
     <div style="text-align: center">
-        <h2>Xin chào {{$member->hoten}}</h2>
+        <h2>Xin chào {{$member->full_name}}</h2>
         <p>Email này giúp bạn lấy lại mật khẩu tài khoản đã bị quên</p>
         <p>Vui lòng click vào link dưới đây để đặt lại mật khẩu</p>
         <p><span style="color: red">Chú ý:</span> Mã xác nhận trong link chỉ có hiệu lực trong vòng 5 phút</p>

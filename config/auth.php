@@ -16,8 +16,6 @@ return [
     'defaults' => [
         'guard' => 'web',
         'passwords' => 'users',
-        // 'guard' => 'webuser',
-        // 'passwords' => 'members',
     ],
 
     /*

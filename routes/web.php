@@ -1,6 +1,8 @@
 <?php
 
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Support\Facades\Route;
+use Illuminate\Http\Request;
 
 
 /*
@@ -52,56 +54,95 @@ Route::group(['namespace' => 'App\Http\Controllers'], function () {
     Route::get('checkout', function () { return 'checkout'; })->name('checkout');
     Route::get('about', function () { return 'about'; })->name('about');
     Route::get('contact', function () { return 'contact'; })->name('contact');
-    // Trang Blog
+
+    // Trang bài viết
     Route::group(['prefix' => 'blogs', 'as' => 'blog.'], function () {
         Route::get('/', 'UserController@blogIndex')->name('blogIndex');
         Route::get('/{slug}', 'SlugController@slug')->name('slug');
     });
-    // Trang đăng nhập & đăng ký & quên mật khẩu
+
+    // Trang sản phẩm
+    Route::group(['prefix' => 'products', 'as' => 'product.'], function () {
+        // Route::get('/', 'UserController@productIndex')->name('productIndex');
+        Route::get('/{slug}', 'SlugController@slug')->name('slug');
+    });
+
+    // Trang giỏ hàng
+    Route::group(['prefix' => 'carts', 'as' => 'cart.'], function () {
+        Route::group(['middleware' => ['auth:webuser']], function () {
+            Route::get('/', 'ShopcartController@cartDetail')->name('detail');
+            Route::post('/{slug}/cart/store', 'ShopcartController@store')->name('store');
+        });
+        Route::get('/delete/{id}', 'ShopcartController@deleteCartItem')->name('delete');
+    });
+
     Route::group(['prefix' => 'account', 'as' => 'user.'], function () {
+        // Trang đăng nhập & đăng ký
         Route::get('/', 'UserController@login')->name('login');
         Route::post('/', 'UserController@handlelogin')->name('handlelogin');
+        Route::get('/register', 'UserController@register')->name('register');
+        Route::post('/register', 'UserController@postRegister');
 
-        Route::get('forgotpassword', 'UserController@forgotPass')->name('forgotpass');
-        Route::post('forgotpassword', 'UserController@postforgotPass');
+        // Trang xác minh email
+        Route::get('/actived/{member}/{token}', 'UserController@actived')->name('actived');
 
-        Route::get('resetpassword/{member}/{token}', 'UserController@resetPass')->name('resetpass');
-        Route::post('resetpassword/{member}/{token}', 'UserController@postresetPass');
+        // Trang xác thực email khi tài khoản quên kích hoạt quá lâu
+        Route::get('/verifyEmail', 'UserController@verifyEmail')->name('verifyemail');
+        Route::post('/verifyEmail', 'UserController@postVerifyEmail');
 
-        Route::get('logout', 'UserController@logout')->name('logout');
+        // Trang quên mật khẩu
+        Route::get('/forgotPassword', 'UserController@forgotPass')->name('forgotpass');
+        Route::post('/forgotPassword', 'UserController@postforgotPass');
+
+        // Lấy lại mật khẩu
+        Route::get('/resetPassword/{member}/{token}', 'UserController@resetPass')->name('resetpass');
+        Route::post('/resetPassword/{member}/{token}', 'UserController@postresetPass');
+
+        // Đăng xuất
+        Route::get('/logout', 'UserController@logout')->name('logout');
     });
-    Route::group(['prefix' => 'infomation', 'as' => 'userinf.', 'middleware' => 'auth:webuser'], function () {
+
+    // Trang thông tin tài khoản cá nhân
+    Route::group(['prefix' => 'infomation', 'as' => 'userinf.', 'middleware' => ['auth:webuser']], function () {
         Route::get('/{id}', 'UserController@inf')->name('inf');
         Route::post('/{id}', 'UserController@editinf');
     });
 });
-// http://127.0.0.1:8000/infomation/1
+
 // Dẫn Comment ngoài
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    Route::post('{slug}/comment/store', 'CommentController@store')->name('comment.store')->middleware('auth:webuser');   
+    Route::post('/{slug}/comment/store', 'CommentController@store')->name('comment.store')->middleware('auth:webuser');
 });
-
 
 // --------------------------------ADMIN-------------------------------------
 
 Route::group(['namespace' => 'App\Http\Controllers'], function () {
-    Route::get('login', 'AdminAuthController@loginAdmin')->name('login');
-    Route::post('login', 'AdminAuthController@postloginAdmin');
+    // Trang đăng nhập
+    Route::get('/login', 'AdminAuthController@loginAdmin')->name('login');
+    Route::post('/login', 'AdminAuthController@postloginAdmin');
 
-    Route::get('forgotpassword', 'AdminAuthController@forgotPass')->name('forgotpass');
-    Route::post('forgotpassword', 'AdminAuthController@postforgotPass');
+    // Trang quên mật khẩu
+    Route::get('/forgotPassword', 'AdminAuthController@forgotPass')->name('forgotpass');
+    Route::post('/forgotPassword', 'AdminAuthController@postforgotPass');
 
-    Route::get('resetpassword/{user}/{token}', 'AdminAuthController@resetPass')->name('resetpass');
-    Route::post('resetpassword/{user}/{token}', 'AdminAuthController@postresetPass');
+    // Lấy lại mật khẩu
+    Route::get('/resetPassword/{user}/{token}', 'AdminAuthController@resetPass')->name('resetpass');
+    Route::post('/resetPassword/{user}/{token}', 'AdminAuthController@postresetPass');
 
-    Route::get('logout', 'AdminAuthController@logout')->name('logout');
+    // Đăng xuất
+    Route::get('/logout', 'AdminAuthController@logout')->name('logout');
 });
 
 Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
     Route::group(['namespace' => 'App\Http\Controllers', 'as' => 'adminshop.'], function () {
-        Route::get('/', 'DashboardController@index')->name('index'); 
-        Route::get('ChangePassword', 'AdminAuthController@changePass')->name('changepass');
-        Route::post('ChangePassword', 'AdminAuthController@postchangePass');
+        // Trang chủ
+        Route::get('/', 'DashboardController@index')->name('index');
+
+        // Trang đổi mật khẩu
+        Route::get('/changePassword', 'AdminAuthController@changePass')->name('changepass');
+        Route::post('/changePassword', 'AdminAuthController@postchangePass');
+
+        // Trang QL Sản phẩm
         Route::group(['prefix' => 'products', 'as' => 'product.'], function () {
             Route::get('/', 'ProductController@index')->name('index');
             Route::get('/create', 'ProductController@create')->name('create');
@@ -110,6 +151,8 @@ Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
             Route::post('/edit/{id}', 'ProductController@updateProduct')->name('postedit');
             Route::get('/delete/{id}', 'ProductController@delete')->name('delete');
         });
+
+        // Trang QL Danh mục sp
         Route::group(['prefix' => 'productcategories', 'as' => 'productcategory.'], function () {
             Route::get('/', 'ProductCategoryController@index')->name('index');
             Route::get('/create', 'ProductCategoryController@create')->name('create');
@@ -118,6 +161,8 @@ Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
             Route::post('/edit/{id}', 'ProductCategoryController@updateCategory')->name('updatecategory');
             Route::get('/delete/{id}', 'ProductCategoryController@delete')->name('delete');
         });
+
+        // Trang QL Nhà cung cấp
         Route::group(['prefix' => 'suppliers', 'as' => 'supplier.'], function () {
             Route::get('/', 'SupplierController@index')->name('index');
             Route::get('/create', 'SupplierController@create')->name('create');
@@ -126,6 +171,39 @@ Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
             Route::post('/edit/{id}', 'SupplierController@updateSupplier')->name('updateSupplier');
             Route::get('/delete/{id}', 'SupplierController@delete')->name('delete');
         });
+
+        // Trang QL Thương hiệu
+        Route::group(['prefix' => 'trademarks', 'as' => 'trademark.'], function () {
+            Route::get('/', 'TrademarkController@index')->name('index');
+            Route::get('/create', 'TrademarkController@create')->name('create');
+            Route::post('/create', 'TrademarkController@postcreate');
+            Route::get('/edit/{id}', 'TrademarkController@edit')->name('edit');
+            Route::post('/edit/{id}', 'TrademarkController@update');
+            Route::get('/delete/{id}', 'TrademarkController@delete')->name('delete');
+        });
+
+        // Trang QL Đơn vị tính
+        Route::group(['prefix' => 'units', 'as' => 'unit.'], function () {
+            Route::get('/', 'UnitController@index')->name('index');
+            Route::get('/create', 'UnitController@create')->name('create');
+            Route::post('/create', 'UnitController@postcreate');
+            Route::get('/edit/{id}', 'UnitController@edit')->name('edit');
+            Route::post('/edit/{id}', 'UnitController@update');
+            Route::get('/delete/{id}', 'UnitController@delete')->name('delete');
+        });
+
+        // Trang QL Khuyến mãi
+        Route::group(['prefix' => 'promotions', 'as' => 'promotion.'], function () {
+            Route::get('/', 'PromotionController@index')->name('index');
+            Route::post('/', 'PromotionController@postindex')->name('postindex');
+            Route::get('/create', 'PromotionController@create')->name('create');
+            Route::post('/create', 'PromotionController@postcreate')->name('postcreate');
+            Route::get('/edit/{id}', 'PromotionController@edit')->name('edit');
+            Route::post('/edit/{id}', 'PromotionController@update');
+            Route::get('/delete/{id}', 'PromotionController@delete')->name('delete');
+        });
+
+        // Trang QL Hóa đơn (chưa hoàn thiện)
         Route::group(['prefix' => 'invoices', 'as' => 'invoice.'], function () {
             Route::get('/', 'InvoiceController@index')->name('index');
             Route::get('/create', 'InvoiceController@create')->name('create');
@@ -135,6 +213,9 @@ Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
             Route::get('/detail', 'InvoiceController@detail')->name('detail');
             Route::get('/delete/{id}', 'InvoiceController@delete')->name('delete');
         });
+
+        // ----------------------------------FRONTEND----------------------------------------------
+        // Trang QL Menu
         Route::group(['prefix' => 'menus', 'as' => 'menu.'], function () {
             Route::get('/', 'MenuController@index')->name('index');
             Route::get('/create', 'MenuController@create')->name('create');
@@ -149,6 +230,8 @@ Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
             Route::get('/delete/{id}', 'MenuController@delete')->name('delete');
             Route::get('/deletenote/{id}', 'MenuController@deleteNote')->name('deletenote');
         });
+
+        // Trang QL Slider
         Route::group(['prefix' => 'sliders', 'as' => 'slider.'], function () {
             Route::get('/', 'SliderController@index')->name('index');
             Route::get('/create', 'SliderController@create')->name('create');
@@ -157,6 +240,8 @@ Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
             Route::post('/edit/{id}', 'SliderController@updateSlider')->name('updateSlider');
             Route::get('/delete/{id}', 'SliderController@delete')->name('delete');
         });
+
+        // Trang QL bài viết
         Route::group(['prefix' => 'posts', 'as' => 'post.'], function () {
             Route::get('/', 'PostController@index')->name('index');
             Route::get('/create', 'PostController@create')->name('create');
@@ -173,25 +258,17 @@ Route::group(['prefix' => 'adminshop', 'middleware' => 'auth'], function () {
                 Route::get('/delete/{id}', 'PostController@deleteCategory')->name('deleteCategory');
             });
         });
+
+        // Trang QL Cmt
         Route::group(['prefix' => 'comments', 'as' => 'comment.'], function () {
             Route::get('/', 'CommentController@index')->name('index');
             Route::get('/delete/{id}', 'CommentController@delete')->name('delete');
         });
-        Route::group(['prefix' => 'trademarks', 'as' => 'trademark.'], function () {
-            Route::get('/', 'TrademarkController@index')->name('index');
-            Route::get('/create', 'TrademarkController@create')->name('create');
-            Route::post('/create', 'TrademarkController@postcreate');
-            Route::get('/edit/{id}', 'TrademarkController@edit')->name('edit');
-            Route::post('/edit/{id}', 'TrademarkController@update');
-            Route::get('/delete/{id}', 'TrademarkController@delete')->name('delete');
-        });
-        Route::group(['prefix' => 'units', 'as' => 'unit.'], function () {
-            Route::get('/', 'UnitController@index')->name('index');
-            Route::get('/create', 'UnitController@create')->name('create');
-            Route::post('/create', 'UnitController@postcreate');
-            Route::get('/edit/{id}', 'UnitController@edit')->name('edit');
-            Route::post('/edit/{id}', 'UnitController@update');
-            Route::get('/delete/{id}', 'UnitController@delete')->name('delete');
-        });
-    }); 
+
+        // Trang QL Giỏ hàng
+        // Route::group(['prefix' => 'comments', 'as' => 'comment.'], function () {
+        //     Route::get('/', 'CommentController@index')->name('index');
+        //     Route::get('/delete/{id}', 'CommentController@delete')->name('delete');
+        // });
+    });
 });

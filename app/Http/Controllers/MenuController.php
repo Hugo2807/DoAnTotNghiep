@@ -18,7 +18,8 @@ use Illuminate\Support\Str;
 
 class MenuController extends Controller
 {
-    private $menuRecusive;
+    private $menuRecusive, $position;
+
     public function __construct(MenuRecusive $menuRecusive, Position $position){
         $this->menuRecusive = $menuRecusive;
         $this->position = $position;
@@ -40,7 +41,6 @@ class MenuController extends Controller
 
     public function postcreate(Request $request)
     {
-        //$data = $request->all();
         //$slug = Str::slug($request->name, '-');
         $menu = Menu::create([
             'name' => $request->name,
@@ -63,7 +63,7 @@ class MenuController extends Controller
         // $data = Menunote::where($id)->get();
         // $data = Menunote();
         //$result = Menunote::find($request->menu_id);
-        
+
 
         $result = Menu::findOrFail($id);
         //$data1 = $result->menunote;
@@ -84,7 +84,7 @@ class MenuController extends Controller
         // foreach($menunotes as $menunote){
         //     $data = Menunote::where('id', $id)->delete();;
         // }
-        
+
         $optionSelect = $this->menuRecusive->menuRecusiveAdd();
         $optionSelect1 = $this->menuRecusive->menuRecusiveEdit(0);
         $optionSelect2 = $this->menuRecusive->getParent();
@@ -109,7 +109,7 @@ class MenuController extends Controller
         if($request->input('addmenunote'))
         {
             $slug = Str::slug($request->name, '-');
-            $menu = MenuNote::create([
+            MenuNote::create([
                 'name' => $request->name,
                 'parent_id' => $request->parent_id,
                 'slug' => $slug,
@@ -120,7 +120,7 @@ class MenuController extends Controller
             if($request->input('editmenunote')){
                 $slug = Str::slug($request->menunotename, '-');
                 $noteid = $request->input('noteid');
-                $menunote = Menunote::find($noteid)->update([
+                Menunote::find($noteid)->update([
                             'name' => $request->menunotename,
                             'parent_id' => $request->parent_id,
                             'slug' => $slug,
@@ -132,7 +132,7 @@ class MenuController extends Controller
             if($request->input('savemenu')){
                 //return $request->pos;
                 $data = Menu::find($id);
-                $position = Menulocation::create([
+                Menulocation::create([
                     'pos' => $request->pos,
                     'menu_id' => $id,
                 ]);

@@ -11,7 +11,7 @@ class Post extends Model
     use HasFactory;
     use SoftDeletes;
     protected $table = 'posts';
-    protected $fillable = [ 
+    protected $fillable = [
         'title',
         'imagePath',
         'imageName',
@@ -25,9 +25,7 @@ class Post extends Model
     }
 
     public function slug(){
-        return $this->morphOne(Slug::class, 'slugable')->withDefault([
-            'nameSlug' => 'Laravel',
-        ]);
+        return $this->morphOne(Slug::class, 'slugable');
     }
 
     public function comments(){

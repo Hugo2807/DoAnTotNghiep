@@ -8,7 +8,7 @@
 }
 .wrapper1{
   overflow: hidden;
-  max-width: auto;
+  width: 750px;
   background: #fff;
   padding: 30px;
   border-radius: 15px;
@@ -123,7 +123,7 @@ form .field input:focus::placeholder{
   color: #1a75ff;
 }
 .form-inner form .pass-link{
-  margin-top: 5px;
+  margin-top: 10px;
 }
 .form-inner form .signup-link{
   text-align: center;

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Traits\StoreImageTrait;
 
 use App\Models\Slider;
+use Illuminate\Support\Facades\Log;
 
 class SliderController extends Controller
 {
@@ -32,15 +33,15 @@ class SliderController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
             ];
-    
+
             $sliderImage = $this->storageTraitUpLoad($request, 'image_path', 'sliders');
             if(!empty($sliderImage)){
                 $dataInsert['image_name'] = $sliderImage['file_name'];
                 $dataInsert['image_path'] = $sliderImage['file_path'];
             }
-    
+
             Slider::create($dataInsert);
-    
+
             return redirect()->route('adminshop.slider.index')->with('msg', 'Thêm slider thành công');
         } catch(\Exception $exception){
             Log::error('Lỗi: ' . $exception->getMessage() . '----Line: ' . $exception->getLine());
@@ -60,15 +61,15 @@ class SliderController extends Controller
                 'name' => $request->name,
                 'description' => $request->description,
             ];
-    
+
             $sliderImage = $this->storageTraitUpLoad($request, 'image_path', 'sliders');
             if(!empty($sliderImage)){
                 $dataUpdate['image_name'] = $sliderImage['file_name'];
                 $dataUpdate['image_path'] = $sliderImage['file_path'];
             }
-    
+
             Slider::find($id)->update($dataUpdate);
-    
+
             return redirect()->route('adminshop.slider.index')->with('msg', 'Cập nhật slider thành công');
         } catch(\Exception $exception){
             Log::error('Lỗi: ' . $exception->getMessage() . '----Line: ' . $exception->getLine());

@@ -2,6 +2,9 @@
     function getMenu(){
         $menunotes = App\Models\Menunote::all();
         $location = App\Models\Menulocation::all();
+        $carts = App\Models\Cart::all();
+        $products = App\Models\Product::all();
+        $units = App\Models\Unit::all();
         return 1;
     }
 

@@ -17,25 +17,25 @@ class CommentController extends Controller
         $this->comments = $comments;
     }
 
-    public function comment(Request $request){
-        $type = Comment::where('commentable_id', $request->idPost)->get();
-        if(isset($type->commentable_type)){
-            switch ($type->commentable_type) {
-                case Post::class:
-                    // View Post
-                    $cmtPost = $this->comments->cmtPost($request->idPost, $request->comment);
-                    return $cmtPost;
-                    break;
-                
-                default:
-                    dd('default');
-                    break;
-            }
-        }
-        else{
-            return redirect()->route('index');
-        }
-    }
+    // public function comment(Request $request){
+    //     $type = Comment::where('commentable_id', $request->idPost)->get();
+    //     if(isset($type->commentable_type)){
+    //         switch ($type->commentable_type) {
+    //             case Post::class:
+    //                 // View Post
+    //                 $cmtPost = $this->comments->cmtPost($request->idPost, $request->comment);
+    //                 return $cmtPost;
+    //                 break;
+
+    //             default:
+    //                 dd('default');
+    //                 break;
+    //         }
+    //     }
+    //     else{
+    //         return redirect()->route('index');
+    //     }
+    // }
 
     public function index(){
         $cmts = Comment::orderBy('id', 'desc')->paginate(5);

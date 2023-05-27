@@ -22,22 +22,25 @@
     <!-- Main content -->
     <section class="content">
       <div class="card">
+        @if (session('msg'))
+          <div class="alert alert-success">{{session('msg')}}</div>
+        @endif
         <div class="card-header">
           <a href="{{ route('adminshop.product.create') }}">
             <h3 class="card-title">Thêm mới</h3>
           </a>
-        <div class="card-tools">
-          <form action="">
-            <div class="input-group input-group-sm" style="width: 150px;">
-              <input type="text" name="key" class="form-control float-right" placeholder="Tìm kiếm">
+          <div class="card-tools">
+            <form action="">
+              <div class="input-group input-group-sm" style="width: 150px;">
+                <input type="text" name="key" class="form-control float-right" placeholder="Tìm kiếm">
 
-              <div class="input-group-append">
-                <button type="submit" class="btn btn-default">
-                  <i class="fas fa-search"></i>
-                </button>
+                <div class="input-group-append">
+                  <button type="submit" class="btn btn-default">
+                    <i class="fas fa-search"></i>
+                  </button>
+                </div>
               </div>
-            </div>
-          </form>
+            </form>
           </div>
         </div>
         <!-- /.card-header -->
@@ -68,11 +71,11 @@
                         </td>
                         <td>{{$item['amount']}}</td>
                         <td>{{$item['price']}}</td>
-                        <td>{{$item['id_unit']}}</td>
+                        <td>{{$item->units->type}}</td>
                         <td>{{$item['description']}}</td>
-                        <td>{{$item['id_cate']}}</td>
-                        <td>{{$item['id_trademark']}}</td>
-                        <td>{{$item['id_suppli']}}</td>
+                        <td>{{$item->categories->name}}</td>
+                        <td>{{$item->trademarks->name}}</td>
+                        <td>{{$item->suppliers->name}}</td>
                         <td>
                           @if ($item['status'] == 1)
                             <span class="badge badge-info">Còn hàng</span>

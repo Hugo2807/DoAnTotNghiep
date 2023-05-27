@@ -73,7 +73,7 @@
       </div>
     </div>
   </footer>
-  
+
 
 
 <!-- loader -->
@@ -102,6 +102,6 @@
     $(this).alert('close');
   });
 </script>
-@yield('scripts')
+{{-- @yield('scripts') --}}
 </body>
 </html>

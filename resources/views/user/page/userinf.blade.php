@@ -29,27 +29,27 @@
                                     class="form-control"
                                     style="border-radius: 50px;"
                                     type="text"
-                                    name="hoten"
+                                    name="full_name"
                                     required
-                                    value="{{$userinfs->hoten}}"
+                                    value="{{$userinfs->full_name}}"
                                 ><br>
                             </td>
                         </tr>
                         <tr>
                             <td><p style="margin-bottom: 1rem;"><b>Giới tính</b></p></td>
                             <td>
-                            <input type="radio" name="gioitinh" value="1" 
+                            <input type="radio" name="gender" value="1"
                                 @php
-                                    if ($userinfs->gioitinh == 1) {
+                                    if ($userinfs->gender == 1) {
                                         echo 'checked';
-                                    }   
+                                    }
                                 @endphp>
                             <label class="mr-2">Nam</label>
-                            <input type="radio" name="gioitinh" value="0"
+                            <input type="radio" name="gender" value="0"
                                 @php
-                                    if ($userinfs->gioitinh == 0) {
+                                    if ($userinfs->gender == 0) {
                                         echo 'checked';
-                                    }   
+                                    }
                                 @endphp>
                             <label>Nữ</label><br>
                             </td>
@@ -61,9 +61,9 @@
                                     class="form-control"
                                     style="border-radius: 50px;"
                                     type="date"
-                                    name="ntns"
+                                    name="birthday"
                                     required
-                                    value="{{$userinfs->ngaysinh}}"
+                                    value="{{$userinfs->birthday}}"
                                 ><br>
                             </td>
                         </tr>
@@ -74,10 +74,10 @@
                                     class="form-control"
                                     style="border-radius: 50px;"
                                     type="text"
-                                    pattern="[0-9]{10}" 
-                                    name="sdt"
+                                    pattern="[0-9]{10}"
+                                    name="phone"
                                     required
-                                    value="{{$userinfs->sdt}}"
+                                    value="{{$userinfs->phone}}"
                                 ><br>
                             </td>
                         </tr>
@@ -88,9 +88,9 @@
                                     class="form-control"
                                     style="border-radius: 50px;"
                                     type="text"
-                                    name="diachi"
+                                    name="address"
                                     required
-                                    value="{{$userinfs->diachi}}"
+                                    value="{{$userinfs->address}}"
                                 ><br>
                             </td>
                         </tr>
@@ -100,7 +100,7 @@
                                 <button type="submit" class="btn btn-primary rounded-3 px-4 py-1 "
                                     name="save">Lưu</button>
                             </td>
-                        </tr>   
+                        </tr>
                     </table>
                 </div>
                 <div class="col-sm-1"></div>

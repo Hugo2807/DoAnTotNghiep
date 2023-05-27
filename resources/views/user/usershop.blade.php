@@ -6,4 +6,4 @@
 
 @include('user.partials.footer')
 
-@yield('scripts')
+{{-- @yield('scripts') --}}

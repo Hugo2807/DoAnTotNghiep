@@ -7,7 +7,7 @@
             </div>
             <div class="form-container">
                 <div class="form-inner">
-                    <form action=""  method="post" class="login">
+                    <form action="" method="post" class="login">
                         @csrf
                         <p class="text-center" style="color: black">Vui lòng điền địa chỉ email bạn sử dụng để đăng nhập</p>
                         @if (session('msg'))
